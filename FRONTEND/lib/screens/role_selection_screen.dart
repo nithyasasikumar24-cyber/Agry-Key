@@ -85,15 +85,17 @@ class _RoleSelectionScreenState
             const SizedBox(height: 30),
 
             Card(
-              color: selectedRole == "Farmer"
+              color: selectedRole == "FARMER"
                   ? Colors.green.shade100
                   : null,
+
               child: ListTile(
                 leading: const Icon(
                   Icons.agriculture,
                   size: 40,
                   color: Colors.green,
                 ),
+
                 title: Text(
                   getText(
                     "Farmer / Producer",
@@ -102,6 +104,7 @@ class _RoleSelectionScreenState
                     "விவசாயி / உற்பத்தியாளர்",
                   ),
                 ),
+
                 subtitle: Text(
                   getText(
                     "Manage crops, weather, diseases and sell products.",
@@ -110,22 +113,25 @@ class _RoleSelectionScreenState
                     "பயிர்கள், வானிலை, நோய்கள் மற்றும் விற்பனையை நிர்வகிக்கவும்.",
                   ),
                 ),
-                onTap: () => selectRole("Farmer"),
+
+                onTap: () => selectRole("FARMER"),
               ),
             ),
 
             const SizedBox(height: 20),
 
             Card(
-              color: selectedRole == "Buyer"
+              color: selectedRole == "BUYER"
                   ? Colors.blue.shade100
                   : null,
+
               child: ListTile(
                 leading: const Icon(
                   Icons.shopping_cart,
                   size: 40,
                   color: Colors.blue,
                 ),
+
                 title: Text(
                   getText(
                     "Buyer / Consumer",
@@ -134,6 +140,7 @@ class _RoleSelectionScreenState
                     "வாங்குபவர் / நுகர்வோர்",
                   ),
                 ),
+
                 subtitle: Text(
                   getText(
                     "Browse products and buy directly from farmers.",
@@ -142,7 +149,8 @@ class _RoleSelectionScreenState
                     "விவசாயிகளிடமிருந்து நேரடியாக வாங்குங்கள்.",
                   ),
                 ),
-                onTap: () => selectRole("Buyer"),
+
+                onTap: () => selectRole("BUYER"),
               ),
             ),
 
@@ -150,10 +158,15 @@ class _RoleSelectionScreenState
 
             SizedBox(
               width: double.infinity,
+
               child: ElevatedButton(
                 onPressed: selectedRole == null
                     ? null
                     : () {
+
+                        AppState.selectedRole =
+                            selectedRole!;
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -162,6 +175,7 @@ class _RoleSelectionScreenState
                           ),
                         );
                       },
+
                 child: Text(
                   getText(
                     "Continue",

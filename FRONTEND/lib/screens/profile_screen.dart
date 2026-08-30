@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/app_state.dart';
 import 'edit_profile_screen.dart';
-import 'track_order_screen.dart';
+import 'my_orders_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -106,6 +106,22 @@ class ProfileScreen extends StatelessWidget {
 
             Card(
               child: ListTile(
+                leading: const Icon(Icons.work),
+                title: Text(
+                  AppState.userOccupation.isEmpty
+                      ? getText(
+                          "Occupation Not Set",
+                          "തൊഴിൽ നൽകിയിട്ടില്ല",
+                          "पेशा सेट नहीं है",
+                          "தொழில் அமைக்கப்படவில்லை",
+                        )
+                      : AppState.userOccupation,
+                ),
+              ),
+            ),
+
+            Card(
+              child: ListTile(
                 leading: const Icon(Icons.location_on),
                 title: Text(
                   AppState.userLocation.isEmpty
@@ -155,7 +171,16 @@ class ProfileScreen extends StatelessWidget {
             Card(
               child: ListTile(
                 leading: const Icon(Icons.language),
-                title: Text(AppState.selectedLanguage),
+                title: Text(
+                  AppState.selectedLanguage.isEmpty
+                      ? getText(
+                          "Language Not Selected",
+                          "ഭാഷ തിരഞ്ഞെടുത്തിട്ടില്ല",
+                          "भाषा चयनित नहीं",
+                          "மொழி தேர்ந்தெடுக்கப்படவில்லை",
+                        )
+                      : AppState.selectedLanguage,
+                ),
               ),
             ),
 
@@ -169,7 +194,7 @@ class ProfileScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (_) =>
-                          const TrackOrderScreen(),
+                          const MyOrdersScreen(),
                     ),
                   );
                 },

@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 import 'otp_screen.dart';
 import '../core/app_state.dart';
+import 'register_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() =>
+      _LoginScreenState();
+}
+
+class _LoginScreenState
+    extends State<LoginScreen> {
+
+  final TextEditingController phoneController =
+      TextEditingController();
 
   String getText(
     String english,
@@ -21,6 +33,37 @@ class LoginScreen extends StatelessWidget {
       default:
         return english;
     }
+  }
+
+  @override
+  void dispose() {
+    phoneController.dispose();
+    super.dispose();
+  }
+
+  void sendOtp() {
+    if (phoneController.text.trim().length !=
+        10) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "Please enter a valid 10-digit mobile number",
+          ),
+        ),
+      );
+      return;
+    }
+
+    AppState.phoneNumber =
+        "+91${phoneController.text.trim()}";
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            const OtpScreen(),
+      ),
+    );
   }
 
   @override
@@ -50,11 +93,12 @@ class LoginScreen extends StatelessWidget {
 
         child: Column(
           children: [
-            const SizedBox(height: 20),
+
+            const SizedBox(height: 30),
 
             const Icon(
               Icons.phone_android,
-              size: 80,
+              size: 90,
               color: Colors.green,
             ),
 
@@ -67,11 +111,11 @@ class LoginScreen extends StatelessWidget {
                 "AGRI KEY में आपका स्वागत है",
                 "AGRI KEY-க்கு வரவேற்கிறோம்",
               ),
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.bold,
               ),
-              textAlign: TextAlign.center,
             ),
 
             const SizedBox(height: 10),
@@ -86,24 +130,26 @@ class LoginScreen extends StatelessWidget {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.grey,
+                fontSize: 15,
               ),
             ),
 
             const SizedBox(height: 40),
 
             TextField(
+              controller: phoneController,
               keyboardType: TextInputType.phone,
               maxLength: 10,
               decoration: InputDecoration(
-                prefixIcon: const Padding(
-                  padding: EdgeInsets.all(14),
-                  child: Text(
-                    "+91",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                prefixIcon: const Icon(
+                  Icons.phone,
+                  color: Colors.green,
+                ),
+
+                prefixText: "+91 ",
+                prefixStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
 
                 labelText: getText(
@@ -114,7 +160,19 @@ class LoginScreen extends StatelessWidget {
                 ),
 
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius:
+                      BorderRadius.circular(12),
+                ),
+
+                focusedBorder:
+                    OutlineInputBorder(
+                  borderRadius:
+                      BorderRadius.circular(12),
+                  borderSide:
+                      const BorderSide(
+                    color: Colors.green,
+                    width: 2,
+                  ),
                 ),
               ),
             ),
@@ -124,23 +182,22 @@ class LoginScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               height: 55,
-
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  foregroundColor: Colors.white,
-                ),
-
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          const OtpScreen(),
+                onPressed: sendOtp,
+                style:
+                    ElevatedButton.styleFrom(
+                  backgroundColor:
+                      Colors.green,
+                  foregroundColor:
+                      Colors.white,
+                  shape:
+                      RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(
+                      12,
                     ),
-                  );
-                },
-
+                  ),
+                ),
                 child: Row(
                   mainAxisAlignment:
                       MainAxisAlignment.center,
@@ -156,8 +213,35 @@ class LoginScreen extends StatelessWidget {
                         "OTP भेजें",
                         "OTP அனுப்பு",
                       ),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight:
+                            FontWeight.bold,
+                      ),
                     ),
                   ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 15),
+
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        const RegisterScreen(),
+                  ),
+                );
+              },
+              child: Text(
+                getText(
+                  "New User? Register",
+                  "പുതിയ ഉപയോക്താവാണോ? രജിസ്റ്റർ ചെയ്യുക",
+                  "नए उपयोगकर्ता? पंजीकरण करें",
+                  "புதிய பயனரா? பதிவு செய்யவும்",
                 ),
               ),
             ),
